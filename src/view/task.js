@@ -1,4 +1,4 @@
-export const task = () => {
+export const createTask = () => {
   return `<article class="card card--yellow">
               <div class="card__form">
               <div class="card__inner">
