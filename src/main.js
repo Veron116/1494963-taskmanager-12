@@ -5,12 +5,16 @@ import {boardFilter} from './view/board-filter';
 import {tasksWrap} from './view/tasks-wrap';
 import {task} from './view/task';
 import {loadBtn} from './view/load-btn';
+import {generateTask} from './mock/task';
 
 const render = function (container, template, place) {
   container.insertAdjacentHTML(place, template);
 };
 
-const TASKS_COUNT = 5;
+const TASKS_COUNT = 15;
+const tasks = new Array(TASKS_COUNT).fill().map(generateTask);
+console.log(tasks);
+
 const mainContentElement = document.querySelector(`.main`);
 const menuWrapElement = mainContentElement.querySelector(`.main__control`);
 render(menuWrapElement, menu(), `beforeend`);
