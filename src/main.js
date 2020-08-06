@@ -25,7 +25,7 @@ const boardWrapElement = mainContentElement.querySelector(`.board`);
 render(boardWrapElement, boardFilter(), `afterbegin`);
 render(boardWrapElement, tasksWrap(), `beforeend`);
 const tasksWrapElement = boardWrapElement.querySelector(`.board__tasks`);
-render(tasksWrapElement, createEditTask(), `afterbegin`);
+render(tasksWrapElement, createEditTask(tasks[0]), `afterbegin`);
 for (let i = 0; i < TASKS_COUNT; i++) {
   render(tasksWrapElement, createTaskTemplate(tasks[i]), `beforeend`);
 }

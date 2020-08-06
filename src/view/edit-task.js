@@ -1,12 +1,5 @@
-const isExpired = dueDate => {
-  if (dueDate === null) {
-    return false;
-  }
-
-  const currentDate = new Date();
-  currentDate.setHours(23, 59, 59, 999);
-  return currentDate.getTime() > dueDate.getTime();
-};
+import {COLORS} from '../const';
+import {isExpiredTask, isRepeatingTask, humanizeTaskDueDate} from '../utils';
 
 const createTaskEditDate = dueDate => {
   return `<button class="card__date-deadline-toggle" type="button">
@@ -22,48 +15,43 @@ const createTaskEditDate = dueDate => {
                 type="text"
                 placeholder=""
                 name="date"
-                value="${dueDate.toLocaleString(`en-US`, {day: `numeric`, month: `long`})}"
+                value="${humanizeTaskDueDate(dueDate)}"
             />
             </label>
            </fieldset>`
         : ``
     }`;
 };
-const isRepeating = repeating => {
-  return Object.values(repeating).some(Boolean);
-};
 const createRepeateTemplate = repeating => {
   return `<button class="card__repeat-toggle" type="button">
-                repeat:<span class="card__repeat-status">${isRepeating(repeating) ? `yes` : `no`}</span>
+                repeat:<span class="card__repeat-status">${isRepeatingTask(repeating) ? `yes` : `no`}</span>
             </button>
 
             ${
-              isRepeating(repeating)
+              isRepeatingTask(repeating)
                 ? `<fieldset class="card__repeat-days">
             <div class="card__repeat-days-inner">
                 ${Object.entries(repeating)
-                  .map(([day, repeat]) => {
-                    `<input
+                  .map(
+                    ([day, repeat]) =>
+                      `<input
                     class="visually-hidden card__repeat-day-input"
                     type="checkbox"
                     id="repeat-${day}"
                     name="repeat"
                     value=${day}
                     ${repeat ? `checked` : ``}/>
-                <label class="card__repeat-day" for="repeat-${day}">${day}</label>`;
-                  })
+                <label class="card__repeat-day" for="repeat-${day}">${day}</label>`
+                  )
                   .join(``)}
             </div>
             </fieldset>`
                 : ``
             }`;
 };
-const createColorTemplate = color => {
-  colors = [`black`, `yellow`, `blue`, `green`, `pink`];
-
-  return colors
-    .map(
-      currentColor => `
+const createColorTemplate = currentColor => {
+  return COLORS.map(
+    color => `
     <input
     type="radio"
     id="color-${color}"
@@ -76,8 +64,7 @@ const createColorTemplate = color => {
     class="card__color card__color--${color}"
     >${color}</label>
     `
-    )
-    .join(``);
+  ).join(``);
 };
 
 export const createEditTask = (task = {}) => {
@@ -95,9 +82,9 @@ export const createEditTask = (task = {}) => {
       su: false,
     },
   } = task;
-  const deadLineClass = isExpired(dueDate) ? 'card--deadline' : '';
+  const deadLineClass = isExpiredTask(dueDate) ? 'card--deadline' : '';
   const dateTemplate = createTaskEditDate(dueDate);
-  const repeatingClass = isRepeating(repeating) ? 'card--repeat' : '';
+  const repeatingClass = isRepeatingTask(repeating) ? 'card--repeat' : '';
   const repeatTemplate = createRepeateTemplate(repeating);
   const colorTemplate = createColorTemplate(color);
 
