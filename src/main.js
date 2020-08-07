@@ -1,8 +1,8 @@
-import {menu} from './view/menu.js';
+import {createMenu} from './view/menu.js';
 import {createFilterTemplate} from './view/filter.js';
-import {boardWrap} from './view/board-wrap.js';
-import {boardFilter} from './view/board-filter';
-import {tasksWrap} from './view/tasks-wrap';
+import {createBoardWrap} from './view/board-wrap.js';
+import {createBoardFilter} from './view/board-filter';
+import {createTasksWrap} from './view/tasks-wrap';
 import {createTaskTemplate} from './view/task';
 import {createEditTask} from './view/edit-task';
 import {createLoadBtnTemplate} from './view/load-btn';
@@ -21,12 +21,12 @@ const filters = generateFilter(tasks);
 
 const mainContentElement = document.querySelector(`.main`);
 const menuWrapElement = mainContentElement.querySelector(`.main__control`);
-render(menuWrapElement, menu(), `beforeend`);
+render(menuWrapElement, createMenu(), `beforeend`);
 render(mainContentElement, createFilterTemplate(filters), `beforeend`);
-render(mainContentElement, boardWrap(), `beforeend`);
+render(mainContentElement, createBoardWrap(), `beforeend`);
 const boardWrapElement = mainContentElement.querySelector(`.board`);
-render(boardWrapElement, boardFilter(), `afterbegin`);
-render(boardWrapElement, tasksWrap(), `beforeend`);
+render(boardWrapElement, createBoardFilter(), `afterbegin`);
+render(boardWrapElement, createTasksWrap(), `beforeend`);
 const tasksWrapElement = boardWrapElement.querySelector(`.board__tasks`);
 render(tasksWrapElement, createEditTask(tasks[0]), `afterbegin`);
 for (let i = 0; i < Math.min(tasks.length, TASK_COUNT_PER_STEP); i++) {
@@ -40,11 +40,11 @@ if (tasks.length > TASK_COUNT_PER_STEP) {
 
   const loadBtn = boardWrapElement.querySelector(`.load-more`);
 
-  loadBtn.addEventListener(`click`, event => {
+  loadBtn.addEventListener(`click`, (event) => {
     event.preventDefault();
     tasks
       .slice(renderedTaskCount, renderedTaskCount + TASK_COUNT_PER_STEP)
-      .forEach(task => render(tasksWrapElement, createTaskTemplate(task), `beforeend`));
+      .forEach((task) => render(tasksWrapElement, createTaskTemplate(task), `beforeend`));
 
     renderedTaskCount += TASK_COUNT_PER_STEP;
 

@@ -13,7 +13,7 @@ const createFilterItemTemplate = (filter, isChecked) => {
           ${name} <span class="filter__${name}-count">${count}</span></label>`;
 };
 
-export const createFilterTemplate = filterItems => {
+export const createFilterTemplate = (filterItems) => {
   const filtersTemplate = filterItems.map((filter, index) => createFilterItemTemplate(filter, index === 0)).join(``);
 
   return `<section class="main__filter filter container">

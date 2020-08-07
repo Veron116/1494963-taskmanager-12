@@ -1,7 +1,7 @@
 import {COLORS} from '../const';
 import {isExpiredTask, isRepeatingTask, humanizeTaskDueDate} from '../utils';
 
-const createTaskEditDate = dueDate => {
+const createTaskEditDate = (dueDate) => {
   return `<button class="card__date-deadline-toggle" type="button">
                 date: <span class="card__date-status">${dueDate !== null ? `yes` : `no`}</span>
             </button>
@@ -22,7 +22,7 @@ const createTaskEditDate = dueDate => {
         : ``
     }`;
 };
-const createRepeateTemplate = repeating => {
+const createRepeateTemplate = (repeating) => {
   return `<button class="card__repeat-toggle" type="button">
                 repeat:<span class="card__repeat-status">${isRepeatingTask(repeating) ? `yes` : `no`}</span>
             </button>
@@ -49,9 +49,9 @@ const createRepeateTemplate = repeating => {
                 : ``
             }`;
 };
-const createColorTemplate = currentColor => {
+const createColorTemplate = (currentColor) => {
   return COLORS.map(
-    color => `
+    (color) => `
     <input
     type="radio"
     id="color-${color}"
@@ -69,8 +69,8 @@ const createColorTemplate = currentColor => {
 
 export const createEditTask = (task = {}) => {
   const {
-    color = 'black',
-    description = '',
+    color = `black`,
+    description = ``,
     dueDate = null,
     repeating = {
       mo: false,
@@ -82,9 +82,9 @@ export const createEditTask = (task = {}) => {
       su: false,
     },
   } = task;
-  const deadLineClass = isExpiredTask(dueDate) ? 'card--deadline' : '';
+  const deadLineClass = isExpiredTask(dueDate) ? `card--deadline` : ``;
   const dateTemplate = createTaskEditDate(dueDate);
-  const repeatingClass = isRepeatingTask(repeating) ? 'card--repeat' : '';
+  const repeatingClass = isRepeatingTask(repeating) ? `card--repeat` : ``;
   const repeatTemplate = createRepeateTemplate(repeating);
   const colorTemplate = createColorTemplate(color);
 
