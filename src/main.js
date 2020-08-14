@@ -1,8 +1,8 @@
 import SiteMenuView from './view/menu';
 import FilterView from './view/filter';
 import SortView from './view/board-filter';
-import {createTaskTemplate} from './view/task';
-import {createEditTask} from './view/edit-task';
+import TaskView from './view/task';
+import TaskEditView from './view/edit-task';
 import LoadMoreButtonView from './view/load-btn';
 import BoardWrapView from './view/board-wrap';
 import TaskListView from './view/tasks-wrap';
@@ -28,10 +28,10 @@ renderElement(boradComponent.getElement(), new SortView().getElement(), renderPo
 
 const taskListComponent = new TaskListView();
 renderElement(boradComponent.getElement(), taskListComponent.getElement(), renderPosition.BEFOREEND);
-renderTemplate(taskListComponent.getElement(), createEditTask(tasks[0]), renderPosition.BEFOREEND);
+renderElement(taskListComponent.getElement(), new TaskEditView(tasks[0]).getElement(), renderPosition.BEFOREEND);
 
 for (let i = 1; i < Math.min(tasks.length, TASK_COUNT_PER_STEP); i++) {
-  renderTemplate(taskListComponent.getElement(), createTaskTemplate(tasks[i]), `beforeend`);
+  renderElement(taskListComponent.getElement(), new TaskView(tasks[i]).getElement(), renderPosition.BEFOREEND);
 }
 
 if (tasks.length > TASK_COUNT_PER_STEP) {
@@ -39,13 +39,13 @@ if (tasks.length > TASK_COUNT_PER_STEP) {
 
   const loadMoreButtonComponent = new LoadMoreButtonView();
 
-  renderTemplate(boradComponent.getElement(), loadMoreButtonComponent.getElement(), renderPosition.BEFOREEND);
+  renderElement(boradComponent.getElement(), loadMoreButtonComponent.getElement(), renderPosition.BEFOREEND);
 
   loadMoreButtonComponent.getElement().addEventListener(`click`, (event) => {
     event.preventDefault();
     tasks
       .slice(renderedTaskCount, renderedTaskCount + TASK_COUNT_PER_STEP)
-      .forEach((task) => renderTemplate(taskListComponent.getElement(), createTaskTemplate(task), `beforeend`));
+      .forEach((task) => renderElement(taskListComponent.getElement(), new TaskView(task).getElement(), renderPosition.BEFOREEND));
 
     renderedTaskCount += TASK_COUNT_PER_STEP;
 

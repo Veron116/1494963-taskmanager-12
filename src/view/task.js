@@ -1,6 +1,6 @@
-import {isExpiredTask, isRepeatingTask, humanizeTaskDueDate} from '../utils';
+import {isExpiredTask, isRepeatingTask, humanizeTaskDueDate, createElement} from '../utils';
 
-export const createTaskTemplate = (taskParams) => {
+const createTaskTemplate = (taskParams) => {
   const {color, description, dueDate, isArchive, isFavorite, repeating} = taskParams;
   const date = dueDate !== null ? humanizeTaskDueDate(dueDate) : ``;
   const deadLineClass = isExpiredTask(dueDate) ? `card--deadline` : ``;
@@ -52,3 +52,26 @@ export const createTaskTemplate = (taskParams) => {
               </div>
           </article>`;
 };
+
+export default class Task {
+  constructor(task) {
+    this._element = null;
+    this._task = task;
+  }
+
+  getTemplate() {
+    return createTaskTemplate(this._task);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
