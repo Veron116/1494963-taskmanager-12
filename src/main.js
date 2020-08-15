@@ -54,7 +54,7 @@ const renderTask = (taskListElement, task) => {
     .addEventListener(`submit`, (e) => {
       e.preventDefault();
       replaceFormToCard();
-      document.addEventListener(`keydown`, onEscKeyDown);
+      document.removeEventListener(`keydown`, onEscKeyDown);
     });
 
   render(taskListElement, taskComponent.getElement(), renderPosition.BEFOREEND);
