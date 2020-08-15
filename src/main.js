@@ -48,6 +48,7 @@ const renderTask = (taskListElement, task) => {
       document.addEventListener(`keydown`, onEscKeyDown);
     });
 
+  //задание для ветки module4-task2 п.1
   taskEditComponent
     .getElement()
     .querySelector(`form`)
@@ -67,6 +68,7 @@ const renderBoard = (boardContainer, boardTasks) => {
   render(boardContainer, boardComponent.getElement(), renderPosition.BEFOREEND);
   render(boardComponent.getElement(), taskListComponent.getElement(), renderPosition.BEFOREEND);
 
+  //задание для ветки module4-task2 п.2
   if (boardTasks.every((task) => task.isArchive)) {
     render(boardComponent.getElement(), new NoTaskView().getElement(), renderPosition.AFTERBEGIN);
     return;
