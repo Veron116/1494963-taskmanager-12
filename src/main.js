@@ -9,7 +9,7 @@ import TaskListView from './view/tasks-wrap';
 import NoTaskView from './view/no-task';
 import {generateTask} from './mock/task';
 import {generateFilter} from './mock/filter';
-import {render, renderPosition} from './utils';
+import {render, RenderPosition} from './utils';
 
 const TASKS_COUNT = 22;
 const TASK_COUNT_PER_STEP = 8;
@@ -58,23 +58,23 @@ const renderTask = (taskListElement, task) => {
       document.removeEventListener(`keydown`, onEscKeyDown);
     });
 
-  render(taskListElement, taskComponent.getElement(), renderPosition.BEFOREEND);
+  render(taskListElement, taskComponent.getElement(), RenderPosition.BEFOREEND);
 };
 
 const renderBoard = (boardContainer, boardTasks) => {
   const boardComponent = new BoardWrapView();
   const taskListComponent = new TaskListView();
 
-  render(boardContainer, boardComponent.getElement(), renderPosition.BEFOREEND);
-  render(boardComponent.getElement(), taskListComponent.getElement(), renderPosition.BEFOREEND);
+  render(boardContainer, boardComponent.getElement(), RenderPosition.BEFOREEND);
+  render(boardComponent.getElement(), taskListComponent.getElement(), RenderPosition.BEFOREEND);
 
   //задание для ветки module4-task2 п.2
   if (boardTasks.every((task) => task.isArchive)) {
-    render(boardComponent.getElement(), new NoTaskView().getElement(), renderPosition.AFTERBEGIN);
+    render(boardComponent.getElement(), new NoTaskView().getElement(), RenderPosition.AFTERBEGIN);
     return;
   }
 
-  render(boardComponent.getElement(), new SortView().getElement(), renderPosition.AFTERBEGIN);
+  render(boardComponent.getElement(), new SortView().getElement(), RenderPosition.AFTERBEGIN);
 
   boardTasks
     .slice(0, Math.min(tasks.length, TASK_COUNT_PER_STEP))
@@ -85,7 +85,7 @@ const renderBoard = (boardContainer, boardTasks) => {
 
     const loadMoreButtonComponent = new LoadMoreButtonView();
 
-    render(boardComponent.getElement(), loadMoreButtonComponent.getElement(), renderPosition.BEFOREEND);
+    render(boardComponent.getElement(), loadMoreButtonComponent.getElement(), RenderPosition.BEFOREEND);
 
     loadMoreButtonComponent.getElement().addEventListener(`click`, (event) => {
       event.preventDefault();
@@ -103,6 +103,6 @@ const renderBoard = (boardContainer, boardTasks) => {
   }
 };
 
-render(siteHeaderElement, new SiteMenuView().getElement(), renderPosition.BEFOREEND);
-render(siteMainElement, new FilterView(filters).getElement(), renderPosition.BEFOREEND);
+render(siteHeaderElement, new SiteMenuView().getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, new FilterView(filters).getElement(), RenderPosition.BEFOREEND);
 renderBoard(siteMainElement, tasks);

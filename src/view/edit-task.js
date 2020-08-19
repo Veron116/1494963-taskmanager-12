@@ -1,5 +1,6 @@
+import AbstractView from './abstract';
 import {COLORS} from '../const';
-import {isExpiredTask, isRepeatingTask, humanizeTaskDueDate, createElement} from '../utils';
+import {isExpiredTask, isRepeatingTask, humanizeTaskDueDate} from '../utils';
 
 const BLANK_TASK = {
   color: COLORS[0],
@@ -24,8 +25,8 @@ const createTaskEditDate = (dueDate) => {
             </button>
 
     ${
-  dueDate !== null
-    ? `<fieldset class="card__date-deadline">
+      dueDate !== null
+        ? `<fieldset class="card__date-deadline">
             <label class="card__input-deadline-wrap">
             <input
                 class="card__date"
@@ -36,8 +37,8 @@ const createTaskEditDate = (dueDate) => {
             />
             </label>
            </fieldset>`
-    : ``
-}`;
+        : ``
+    }`;
 };
 const createRepeateTemplate = (repeating) => {
   return `<button class="card__repeat-toggle" type="button">
@@ -45,13 +46,13 @@ const createRepeateTemplate = (repeating) => {
             </button>
 
             ${
-  isRepeatingTask(repeating)
-    ? `<fieldset class="card__repeat-days">
+              isRepeatingTask(repeating)
+                ? `<fieldset class="card__repeat-days">
             <div class="card__repeat-days-inner">
                 ${Object.entries(repeating)
                   .map(
-                      ([day, repeat]) =>
-                        `<input
+                    ([day, repeat]) =>
+                      `<input
                     class="visually-hidden card__repeat-day-input"
                     type="checkbox"
                     id="repeat-${day}"
@@ -63,12 +64,12 @@ const createRepeateTemplate = (repeating) => {
                   .join(``)}
             </div>
             </fieldset>`
-    : ``
-}`;
+                : ``
+            }`;
 };
 const createColorTemplate = (currentColor) => {
   return COLORS.map(
-      (color) => `
+    (color) => `
     <input
     type="radio"
     id="color-${color}"
@@ -137,25 +138,13 @@ const createEditTask = (task) => {
   </article>`;
 };
 
-export default class TaskEdit {
+export default class TaskEdit extends AbstractView {
   constructor(task) {
-    this._element = null;
+    super();
     this._task = task || BLANK_TASK;
   }
 
   getTemplate() {
     return createEditTask(this._task);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
