@@ -40,23 +40,16 @@ const renderTask = (taskListElement, task) => {
     }
   };
 
-  taskComponent
-    .getElement()
-    .querySelector(`.card__btn--edit`)
-    .addEventListener(`click`, () => {
-      replaceCardToForm();
-      document.addEventListener(`keydown`, onEscKeyDown);
-    });
+  taskComponent.setEditClickHandler(() => {
+    replaceCardToForm();
+    document.addEventListener(`keydown`, onEscKeyDown);
+  });
 
   //задание для ветки module4-task2 п.1
-  taskEditComponent
-    .getElement()
-    .querySelector(`form`)
-    .addEventListener(`submit`, (e) => {
-      e.preventDefault();
-      replaceFormToCard();
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    });
+  taskEditComponent.setFormSubmitHandler(() => {
+    replaceFormToCard();
+    document.removeEventListener(`keydown`, onEscKeyDown);
+  });
 
   render(taskListElement, taskComponent.getElement(), RenderPosition.BEFOREEND);
 };
@@ -87,8 +80,7 @@ const renderBoard = (boardContainer, boardTasks) => {
 
     render(boardComponent.getElement(), loadMoreButtonComponent.getElement(), RenderPosition.BEFOREEND);
 
-    loadMoreButtonComponent.getElement().addEventListener(`click`, (event) => {
-      event.preventDefault();
+    loadMoreButtonComponent.setClickHandler(() => {
       boardTasks
         .slice(renderedTaskCount, renderedTaskCount + TASK_COUNT_PER_STEP)
         .forEach((boardTask) => renderTask(taskListComponent.getElement(), boardTask));
