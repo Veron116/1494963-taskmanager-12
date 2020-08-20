@@ -1,4 +1,4 @@
-import {getRandomInteger} from '../utils';
+import {getRandomInteger} from '../utils/common';
 import {COLORS} from '../const';
 
 const generateTaskDescription = () => {
@@ -48,14 +48,14 @@ export const generateTask = () => {
     dueDate === null
       ? generateRepeatingTask()
       : {
-        mo: false,
-        tu: false,
-        we: false,
-        th: false,
-        fr: false,
-        sa: false,
-        su: false,
-      };
+          mo: false,
+          tu: false,
+          we: false,
+          th: false,
+          fr: false,
+          sa: false,
+          su: false,
+        };
 
   return {
     dueDate,
