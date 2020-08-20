@@ -1,15 +1,8 @@
 import SiteMenuView from './view/menu';
 import FilterView from './view/filter';
-import SortView from './view/board-filter';
-import TaskView from './view/task';
-import TaskEditView from './view/edit-task';
-import LoadMoreButtonView from './view/load-btn';
-import BoardWrapView from './view/board-wrap';
-import TaskListView from './view/tasks-wrap';
-import NoTaskView from './view/no-task';
 import {generateTask} from './mock/task';
 import {generateFilter} from './mock/filter';
-import {render, RenderPosition, replace, remove} from './utils/render';
+import {replace, remove} from './utils/render';
 
 const TASKS_COUNT = 22;
 const TASK_COUNT_PER_STEP = 8;
@@ -45,7 +38,6 @@ const renderTask = (taskListElement, task) => {
     document.addEventListener(`keydown`, onEscKeyDown);
   });
 
-  //задание для ветки module4-task2 п.1
   taskEditComponent.setFormSubmitHandler(() => {
     replaceFormToCard();
     document.removeEventListener(`keydown`, onEscKeyDown);
@@ -61,12 +53,6 @@ const renderBoard = (boardContainer, boardTasks) => {
 
   render(boardContainer, boardComponent, RenderPosition.BEFOREEND);
   render(boardComponent, taskListComponent, RenderPosition.BEFOREEND);
-
-  //задание для ветки module4-task2 п.2
-  if (boardTasks.every((task) => task.isArchive)) {
-    render(boardComponent, new NoTaskView(), RenderPosition.AFTERBEGIN);
-    return;
-  }
 
   render(boardComponent, new SortView(), RenderPosition.AFTERBEGIN);
 
