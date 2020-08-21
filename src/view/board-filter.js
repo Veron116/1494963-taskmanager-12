@@ -21,7 +21,6 @@ export default class Sort extends AbstractView {
   }
 
   _sortTypeChangeHandler(evt) {
-    console.log(evt);
     if (evt.target.tagName !== `A`) {
       return;
     }
@@ -30,11 +29,9 @@ export default class Sort extends AbstractView {
   }
 
   setSortTypeChangeHandler(callback) {
-    console.log(this._callback);
     this._callback.sortTypeChange = callback;
     this._callback.event32 = callback;
 
-    console.log(this._callback);
     this.getElement().addEventListener(`click`, this._sortTypeChangeHandler);
   }
 }
