@@ -5,9 +5,19 @@ import NoTaskView from '../view/no-task';
 import TaskView from '../view/task';
 import TaskEditView from '../view/edit-task';
 import LoadMoreButtonView from '../view/load-btn';
-import {render, RenderPosition, replace, remove} from '../utils/render';
-import {sortTaskUp, sortTaskDown} from '../utils/task';
-import {SortType} from '../const';
+import {
+  render,
+  RenderPosition,
+  replace,
+  remove
+} from '../utils/render';
+import {
+  sortTaskUp,
+  sortTaskDown
+} from '../utils/task';
+import {
+  SortType
+} from '../const';
 
 const TASK_COUNT_PER_STEP = 8;
 
@@ -37,6 +47,7 @@ export default class Board {
     this._renderBoard();
   }
 
+  //задание 2 module5
   _sortTasks(sortType) {
     switch (sortType) {
       case SortType.DATE_UP:
