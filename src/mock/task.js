@@ -56,16 +56,16 @@ export const generateTask = () => {
   const dueDate = generateDueDate();
   const repeating =
     dueDate === null ?
-    generateRepeatingTask() :
-    {
-      mo: false,
-      tu: false,
-      we: false,
-      th: false,
-      fr: false,
-      sa: false,
-      su: false,
-    };
+      generateRepeatingTask() :
+      {
+        mo: false,
+        tu: false,
+        we: false,
+        th: false,
+        fr: false,
+        sa: false,
+        su: false,
+      };
 
   return {
     id: generateId(),

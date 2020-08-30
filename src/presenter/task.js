@@ -7,13 +7,21 @@ import {
   remove
 } from "../utils/render.js";
 
+const Mode = {
+  DEFAULT: `DEFAULT`,
+  EDITING: `EDITING`
+};
+
+
 export default class Task {
-  constructor(taskListContainer, changeData) {
+  constructor(taskListContainer, changeData, changeMode) {
     this._taskListContainer = taskListContainer;
     this._changeData = changeData;
+    this._changeMode = changeMode;
 
     this._taskComponent = null;
     this._taskEditComponent = null;
+    this._mode = Mode.DEFAULT;
 
     this._handleEditClick = this._handleEditClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
@@ -40,10 +48,10 @@ export default class Task {
       render(this._taskListContainer, this._taskComponent, RenderPosition.BEFOREEND);
       return;
     }
-    if (this._taskListContainer.getElement().contains(prevTaskComponent.getElement())) {
+    if (this._mode === Mode.DEFAULT) {
       replace(this._taskComponent, prevTaskComponent);
     }
-    if (this._taskListContainer.getElement().contains(prevTaskEditComponent.getElement())) {
+    if (this._mode === Mode.EDITING) {
       replace(this._taskEditComponent, prevTaskEditComponent);
     }
 
@@ -56,15 +64,23 @@ export default class Task {
     remove(this._taskEditComponent);
   }
 
+  resetView() {
+    if (this._mode !== Mode.DEFAULT) {
+      this._replaceFormToCard();
+    }
+  }
 
   _replaceCardToForm() {
     replace(this._taskEditComponent, this._taskComponent);
     document.addEventListener(`keydown`, this._escKeyDownHandler);
+    this._changeMode();
+    this._mode = Mode.EDITING;
   }
 
   _replaceFormToCard() {
     replace(this._taskComponent, this._taskEditComponent);
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
+    this._mode = Mode.DEFAULT;
   }
 
   _escKeyDownHandler(evt) {
@@ -81,26 +97,26 @@ export default class Task {
 
   _handleFavoriteClick() {
     this._changeData(
-      Object.assign({},
-        this._task, {
-          isFavorite: !this._task.isFavorite
-        }
-      )
+        Object.assign({},
+            this._task, {
+              isFavorite: !this._task.isFavorite
+            }
+        )
     );
   }
 
   _handleArchiveClick() {
     this._changeData(
-      Object.assign({},
-        this._task, {
-          isArchive: !this._task.isArchive
-        }
-      )
+        Object.assign({},
+            this._task, {
+              isArchive: !this._task.isArchive
+            }
+        )
     );
   }
 
   _handleFormSubmit() {
+    this._changeData(this._task);
     this._replaceFormToCard();
-    this._changeData(task);
   }
 }
