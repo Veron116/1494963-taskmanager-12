@@ -1,4 +1,4 @@
-import AbstractView from "./abstract.js";
+import SmartView from "./smart.js";
 import {
   COLORS
 } from "../const.js";
@@ -103,7 +103,6 @@ const createTaskEditTemplate = (data) => {
   const colorsTemplate = createTaskEditColorsTemplate(color);
   const isSubmitDisabled = isRepeating && !isRepeatingTask(repeating);
 
-
   return `<article class="card card--edit card--${color} ${deadlineClassName} ${repeatingClassName}">
     <form class="card__form" method="get">
       <div class="card__inner">
@@ -144,7 +143,7 @@ const createTaskEditTemplate = (data) => {
   </article>`;
 };
 
-export default class TaskEdit extends AbstractView {
+export default class TaskEdit extends SmartView {
   constructor(task = BLANK_TASK) {
     super();
     this._data = TaskEdit.parseTaskToData(task);
@@ -161,36 +160,6 @@ export default class TaskEdit extends AbstractView {
 
   getTemplate() {
     return createTaskEditTemplate(this._data);
-  }
-
-  updateData(update, justDataUpdating) {
-    if (!update) {
-      return;
-    }
-
-    this._data = Object.assign({},
-      this._data,
-      update
-    );
-
-    if (justDataUpdating) {
-      return;
-    }
-
-    this.updateElement();
-  }
-
-  updateElement() {
-    let prevElement = this.getElement();
-    const parent = prevElement.parentElement;
-    this.removeElement();
-
-    const newElement = this.getElement();
-
-    parent.replaceChild(newElement, prevElement);
-    prevElement = null;
-
-    this.restoreHandlers();
   }
 
   restoreHandlers() {
